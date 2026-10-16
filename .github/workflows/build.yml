@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       board_name:
-        description: 'Derlenecek kart klasörü (main/boards altındaki klasör adı)'
+        description: 'Derlenecek kart (uretici/kart-adi)'
         required: true
-        default: 'atoms3r-cam-m12-echo-base'
+        default: 'm5stack/atoms3r-cam-m12-echo-base'
   push:
     branches:
       - main
@@ -27,7 +27,7 @@ jobs:
       - name: Build target board
         shell: bash
         env:
-          BOARD: ${{ github.event.inputs.board_name || 'atoms3r-cam-m12-echo-base' }}
+          BOARD: ${{ github.event.inputs.board_name || 'm5stack/atoms3r-cam-m12-echo-base' }}
         run: |
           source "$IDF_PATH/export.sh"
           python scripts/build.py "$BOARD"
@@ -35,6 +35,6 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: xiaozhi_${{ github.event.inputs.board_name || 'atoms3r-cam-m12-echo-base' }}
+          name: xiaozhi-atoms3r-cam-m12-echo-base
           path: build/merged-binary.bin
           if-no-files-found: error
